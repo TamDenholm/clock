@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Screen Clock</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body id="background" class="min-h-screen flex items-center justify-center transition-colors duration-1000">
+    <div class="text-center">
+        <div class="flex items-center justify-center">
+            <div id="clock" class="text-white text-8xl font-bold tracking-wider"></div>
+            <div id="ampm" class="text-white text-2xl ml-4 mt-8"></div>
+        </div>
+        <div id="date" class="text-slate-400 text-2xl mt-4"></div>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const timeElement = document.getElementById('clock');
+            const ampmElement = document.getElementById('ampm');
+            const dateElement = document.getElementById('date');
+            const backgroundElement = document.getElementById('background');
+            
+            // Format time in 12-hour format
+            let hours = now.getHours();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            // Set background color based on time
+            if ((hours >= 19) || (hours < 7)) {
+                backgroundElement.className = 'min-h-screen flex items-center justify-center transition-colors duration-1000 bg-red-900';
+            } else {
+                backgroundElement.className = 'min-h-screen flex items-center justify-center transition-colors duration-1000 bg-green-900';
+            }
+            
+            hours = hours % 12;
+            hours = hours ? hours : 12; // convert 0 to 12
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            
+            // Format date
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString('en-GB', options);
+            
+            timeElement.textContent = `${hours}:${minutes}`;
+            ampmElement.textContent = ampm;
+            dateElement.textContent = dateString;
+        }
+
+        // Update clock immediately and then every second
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html> 
