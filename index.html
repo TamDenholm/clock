@@ -13,6 +13,7 @@
             <div id="ampm" class="text-white text-2xl ml-4 mt-8"></div>
         </div>
         <div id="date" class="text-slate-400 text-2xl mt-4"></div>
+        <div id="countdown" class="text-white text-xl mt-4 font-semibold"></div>
     </div>
 
     <script>
@@ -22,6 +23,7 @@
             const ampmElement = document.getElementById('ampm');
             const dateElement = document.getElementById('date');
             const backgroundElement = document.getElementById('background');
+            const countdownElement = document.getElementById('countdown');
             
             // Format time in 12-hour format
             let hours = now.getHours();
@@ -42,9 +44,15 @@
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             const dateString = now.toLocaleDateString('en-GB', options);
             
+            // Calculate days until March 5th, 2025
+            const targetDate = new Date('2025-03-05');
+            const timeDiff = targetDate - now;
+            const daysRemaining = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+            
             timeElement.textContent = `${hours}:${minutes}`;
             ampmElement.textContent = ampm;
             dateElement.textContent = dateString;
+            countdownElement.textContent = `${daysRemaining} days to go`;
         }
 
         // Update clock immediately and then every second
